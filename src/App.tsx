@@ -1,20 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-
-interface Task {
-  id: string;
-  name: string;
-  description: string;
-  dueDate: string;
-  status: string;
-}
-
-interface List {
-  id: string;
-  name: string;
-  tasks: string[];  // An array of task IDs
-}
+import Board from './components/Board/Board';
+import { Task, List } from './types';
 
 function App() {
   const [username, setUsername] = useState<string>(''); 
@@ -50,6 +38,8 @@ function App() {
   return (
     <div className="App">
       <Navbar username={username} avatar={avatar} totalTasks={tasks.length} />
+      <Board lists={lists} tasks={tasks} addTask={addTask} deleteTask={deleteTask} updateTask={updateTask} addList={addList} deleteList={deleteList} updateList={updateList} />
+
     </div>
   );
 }
