@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import Navbar from './components/Navbar/Navbar';
 
 interface Task {
   id: string;
@@ -16,6 +17,8 @@ interface List {
 }
 
 function App() {
+  const [username, setUsername] = useState<string>(''); 
+  const [avatar, setAvatar] = useState<number>(1); 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [lists, setLists] = useState<List[]>([]);
 
@@ -46,10 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Task Flow</h1>
-        {/* Render your components here and pass the necessary states and functions as props */}
-      </header>
+      <Navbar username={username} avatar={avatar} totalTasks={tasks.length} />
     </div>
   );
 }
