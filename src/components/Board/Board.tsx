@@ -13,7 +13,23 @@ interface BoardProps {
 }
 
 function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteList, updateList}: BoardProps) {
-  // Other code...
+  
+    const onAddTask = (listId: string) => {
+        // Open a form, gather details for the new task
+        // For example, this could open a modal with a form for the user to input the new task's details
+    
+        const newTask: Task = {
+          id: 'newId', // Generate a new ID for the task
+          name: 'newTask', // The user would input this
+          labels: [], // The user would select these
+          description: 'newTaskDescription', // The user would input this
+          dueDate: '2023-01-01', // The user would input this
+          status: listId, // Initial status
+        };
+    
+        addTask(newTask); // Add the new task
+      };
+    
 
   return (
     <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
@@ -21,6 +37,7 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
         <TaskList 
           key={list.id} 
           listTitle={list.name} 
+          onAddTask={() => onAddTask(list.id)}
           tasks={tasks.filter((task) => list.tasks.includes(task.id))}
           deleteTask={deleteTask}
           updateTask={updateTask}

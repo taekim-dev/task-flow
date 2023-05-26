@@ -20,7 +20,8 @@ function TaskList({ listTitle, tasks, onAddTask, isAddList = false, deleteTask, 
       {isAddList ? (
         <button className="w-full h-12 mt-4 bg-blue-500 text-white rounded-md">+ Add another list</button>
       ) : (
-        <button onClick={onAddTask} className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
+        <button onClick={onAddTask} 
+                className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
           <div className="flex justify-center items-center h-full">
             <span className="font-bold text-xl">+</span>
             <span className="ml-2">Add a task</span>

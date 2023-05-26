@@ -1,4 +1,4 @@
-import { Task } from '../../types';
+import { Task, LabelColor } from '../../types';
 import { useState } from 'react';
 
 interface TaskFormProps {
@@ -11,6 +11,7 @@ function TaskForm({ initialData, onSubmit }: TaskFormProps) {
   const [name, setName] = useState(initialData?.name || '');
   const [description, setDescription] = useState(initialData?.description || '');
   const [dueDate, setDueDate] = useState(initialData?.dueDate || '');
+  const [labels, setLabels] = useState(initialData?.labels || []); // New label field
   
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,6 +20,7 @@ function TaskForm({ initialData, onSubmit }: TaskFormProps) {
     onSubmit({
       id: initialData?.id || 'newId', // Generate a new ID for a new task
       name,
+      labels,
       description,
       dueDate,
       status: initialData?.status || 'To Do', // Default status for a new task
@@ -28,6 +30,20 @@ function TaskForm({ initialData, onSubmit }: TaskFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       {/* Add your form fields here. They should update the respective state variables on change. */}
+      {/* Here is an example for a label field. You might need to adjust it according to your needs. */}
+      <div>
+        <label>Label:</label>
+        <select multiple={true} value={labels} onChange={(e) => {
+        const selectedLabels = Array.from(e.target.selectedOptions).map((option) => option.value as LabelColor);
+        setLabels(selectedLabels);
+        }}>
+        {Object.values(LabelColor).map(color => (
+            <option key={color} value={color}>{color}</option>
+        ))}
+        </select>
+
+      </div>
+      {/* Continue with other fields... */}
     </form>
   );
 }

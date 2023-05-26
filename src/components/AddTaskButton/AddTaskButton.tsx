@@ -13,6 +13,7 @@ function AddTaskButton({ listId, addTask }: AddTaskButtonProps) {
     const newTask: Task = {
       id: 'newId', // You would generate a unique ID.
       name: 'newTask', // The user would input this.
+      labels: [], // Initial label.
       description: 'newTaskDescription', // The user would input this.
       dueDate: '2023-01-01', // The user would input this.
       status: 'To Do', // Initial status.

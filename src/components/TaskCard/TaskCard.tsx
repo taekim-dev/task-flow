@@ -19,8 +19,8 @@ function TaskCard({ task, deleteTask, updateTask }: TaskCardProps) {
           />
         ))}
       </div>
-      <h4 className="font-bold">{task.name}</h4>
-      <p>Due: {task.dueDate}</p>
+      <h4 className="text-left text-lg font-bold ">{task.name}</h4>
+      <p>{task.dueDate}</p>
       <button onClick={() => deleteTask(task.id)}>Delete</button>
       <button onClick={() => updateTask({ ...task, name: 'Updated name' })}>Update</button>
     </div>
