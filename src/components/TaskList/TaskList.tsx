@@ -12,7 +12,7 @@ interface TaskListProps {
 
 function TaskList({ listTitle, tasks, onAddTask, isAddList = false, deleteTask, updateTask }: TaskListProps) {
   return (
-    <div className="bg-gray-100 w-64 m-4 rounded-md p-4">
+    <div className="bg-gray-100 w-64 m-4 rounded-xl p-4">
       <h3 className="text-center font-bold">{listTitle}</h3>
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />

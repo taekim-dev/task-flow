@@ -3,18 +3,47 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Board from './components/Board/Board';
 import LandingPage from './components/LandingPage/LandingPage';
-import { Task, List } from './types';
+import { Task, List, LabelColor } from './types';
 import storageService from './utils/storageService';
 
 function App() {
   const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
   const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
   const [tasks, setTasks] = useState<Task[]>([
-    { id: 'task1', name: 'Task 1', description: 'Description for Task 1', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list1' },
-    { id: 'task2', name: 'Task 2', description: 'Description for Task 2', dueDate: new Date('2023-06-01').toLocaleDateString('en-CA'), status: 'list2' },
-    { id: 'task3', name: 'Task 3', description: 'Description for Task 3', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list3' },
-    { id: 'task4', name: 'Task 4', description: 'Description for Task 4', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list4' },
+    { 
+      id: 'task1', 
+      name: 'Task 1', 
+      labels: [LabelColor.Red], 
+      description: 'Description for Task 1', 
+      dueDate: new Date().toLocaleDateString('en-CA'), 
+      status: 'list1' 
+    },
+    { 
+      id: 'task2', 
+      name: 'Task 2', 
+      labels: [LabelColor.Blue], 
+      description: 'Description for Task 2', 
+      dueDate: new Date('2023-06-01').toLocaleDateString('en-CA'), 
+      status: 'list2' 
+    },
+    { 
+      id: 'task3', 
+      name: 'Task 3', 
+      labels: [LabelColor.Green, LabelColor.Red],  // Multiple labels
+      description: 'Description for Task 3', 
+      dueDate: new Date().toLocaleDateString('en-CA'), 
+      status: 'list3' 
+    },
+    { 
+      id: 'task4', 
+      name: 'Task 4', 
+      labels: [LabelColor.Yellow], 
+      description: 'Description for Task 4', 
+      dueDate: new Date().toLocaleDateString('en-CA'), 
+      status: 'list4' 
+    },
   ]);
+  
   const [lists, setLists] = useState<List[]>([
     { id: 'list1', name: 'To Do', tasks: ['task1'] },
     { id: 'list2', name: 'Doing', tasks: ['task2'] },
