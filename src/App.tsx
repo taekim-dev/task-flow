@@ -4,23 +4,13 @@ import Navbar from './components/Navbar/Navbar';
 import Board from './components/Board/Board';
 import LandingPage from './components/LandingPage/LandingPage';
 import { Task, List } from './types';
+import storageService from './utils/storageService';
 
 function App() {
-  const [username, setUsername] = useState<string>(''); 
-  const [avatar, setAvatar] = useState<number>(1); 
+  const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
+  const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [lists, setLists] = useState<List[]>([]);
-
-  const handleSetupSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const usernameInput = form.elements.namedItem('username') as HTMLInputElement;
-    const avatarInput = form.elements.namedItem('avatar') as HTMLInputElement;
-
-    setUsername(usernameInput.value);
-    setAvatar(Number(avatarInput.value));
-  }
 
   const addTask = (task: Task) => {
     setTasks(prevTasks => [...prevTasks, task]);

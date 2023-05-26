@@ -1,11 +1,12 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
+import storageService from '../../utils/storageService';
 
 interface Props {
   setUsername: (username: string) => void;
   setAvatar: (avatar: number) => void;
 }
 
-const LandingPage: FC<Props> = ({ setUsername, setAvatar }) => {
+function LandingPage({ setUsername, setAvatar }: Props) {
 
   const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
 
@@ -21,6 +22,10 @@ const LandingPage: FC<Props> = ({ setUsername, setAvatar }) => {
 
     setUsername(usernameInput.value);
     setAvatar(selectedAvatar);
+
+    // Store user information in localStorage
+    storageService.setItem('username', usernameInput.value);
+    storageService.setItem('avatar', String(selectedAvatar));
   }
 
   return (
@@ -39,7 +44,7 @@ const LandingPage: FC<Props> = ({ setUsername, setAvatar }) => {
           ))}
         </div>
         <form onSubmit={handleSetupSubmit} className="flex flex-col items-center mt-6">
-          <label className="font-bold mb-2">Username:</label>
+          <label className="text-xl font-bold mb-2">Username:</label>
           <input className="px-3 py-2 rounded-lg border-2 focus:border-blue-500" type="text" name="username" required />
           <button className="px-6 py-2 mt-6 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-700" type="submit">Start</button>
         </form>
