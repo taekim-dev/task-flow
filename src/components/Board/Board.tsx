@@ -30,6 +30,15 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
         addTask(newTask); // Add the new task
       };
     
+      const handleAddList = () => {
+        const newList: List = {
+          id: 'newId', // Generate a new ID for the list
+          name: 'newList', // The user would input this
+          tasks: [], // Initially empty
+        };
+    
+        addList(newList); // Add the new list
+      }
 
   return (
     <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
@@ -43,6 +52,9 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
           updateTask={updateTask}
         />
       ))}
+      <button onClick={handleAddList} className="bg-gray-100 w-64 m-4 rounded-xl p-4 h-12 flex justify-center items-center">
+        + Add another list
+      </button>
     </div>
   );
 }
