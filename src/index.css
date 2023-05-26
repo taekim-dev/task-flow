@@ -1,11 +1,3 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-#root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';

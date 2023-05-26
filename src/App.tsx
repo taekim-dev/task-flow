@@ -47,18 +47,22 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App bg-gray-200 min-h-screen">
       {username === '' ? (
-        <form onSubmit={handleSetupSubmit}>
-          <label>
-            Username:
-            <input type="text" name="username" required />
-          </label>
-          <label>
-            Avatar Number:
-            <input type="number" min="1" max="5" name="avatar" required />
-          </label>
-          <button type="submit">Start</button>
+        <form onSubmit={handleSetupSubmit} className="mx-auto mt-20 w-1/2 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Username:
+            </label>
+            <input type="text" name="username" required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Avatar Number:
+            </label>
+            <input type="number" min="1" max="5" name="avatar" required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+          </div>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Start</button>
         </form>
       ) : (
         <>
