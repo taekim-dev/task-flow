@@ -10,6 +10,17 @@ function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [lists, setLists] = useState<List[]>([]);
 
+  const handleSetupSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const usernameInput = form.elements.namedItem('username') as HTMLInputElement;
+    const avatarInput = form.elements.namedItem('avatar') as HTMLInputElement;
+
+    setUsername(usernameInput.value);
+    setAvatar(Number(avatarInput.value));
+  }
+
   const addTask = (task: Task) => {
     setTasks(prevTasks => [...prevTasks, task]);
   }
@@ -37,9 +48,32 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar username={username} avatar={avatar} totalTasks={tasks.length} />
-      <Board lists={lists} tasks={tasks} addTask={addTask} deleteTask={deleteTask} updateTask={updateTask} addList={addList} deleteList={deleteList} updateList={updateList} />
-
+      {username === '' ? (
+        <form onSubmit={handleSetupSubmit}>
+          <label>
+            Username:
+            <input type="text" name="username" required />
+          </label>
+          <label>
+            Avatar Number:
+            <input type="number" min="1" max="5" name="avatar" required />
+          </label>
+          <button type="submit">Start</button>
+        </form>
+      ) : (
+        <>
+          <Navbar username={username} avatar={avatar} totalTasks={tasks.length} />
+          <Board 
+          lists={lists} 
+          tasks={tasks} 
+          addTask={addTask} 
+          deleteTask={deleteTask} 
+          updateTask={updateTask} 
+          addList={addList} 
+          deleteList={deleteList} 
+          updateList={updateList} />
+        </>
+      )}
     </div>
   );
 }
