@@ -16,7 +16,7 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
   // Other code...
 
   return (
-    <div>
+    <div className="bg-blue-200 min-h-screen">
       {lists.map((list) => (
         <TaskList 
           key={list.id} 
