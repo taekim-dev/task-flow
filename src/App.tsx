@@ -9,8 +9,17 @@ import storageService from './utils/storageService';
 function App() {
   const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
   const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [lists, setLists] = useState<List[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: 'task1', name: 'Task 1', description: 'Description for Task 1', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list1' },
+    { id: 'task2', name: 'Task 2', description: 'Description for Task 2', dueDate: new Date('2023-06-01').toLocaleDateString('en-CA'), status: 'list2' },
+    { id: 'task3', name: 'Task 3', description: 'Description for Task 3', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list3' },
+    { id: 'task4', name: 'Task 4', description: 'Description for Task 4', dueDate: new Date().toLocaleDateString('en-CA'), status: 'list4' },
+  ]);
+  const [lists, setLists] = useState<List[]>([
+    { id: 'list1', name: 'To Do', tasks: ['task1'] },
+    { id: 'list2', name: 'Doing', tasks: ['task2'] },
+    { id: 'list3', name: 'Done', tasks: ['task3', 'task4'] },
+  ]);
 
   const addTask = (task: Task) => {
     setTasks(prevTasks => [...prevTasks, task]);

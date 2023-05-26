@@ -16,17 +16,14 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
   // Other code...
 
   return (
-    <div className="bg-blue-200 min-h-screen">
+    <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
       {lists.map((list) => (
         <TaskList 
           key={list.id} 
-          list={list} 
+          listTitle={list.name} 
           tasks={tasks.filter((task) => list.tasks.includes(task.id))}
-          addTask={addTask}
           deleteTask={deleteTask}
           updateTask={updateTask}
-          deleteList={deleteList}
-          updateList={updateList}
         />
       ))}
     </div>
