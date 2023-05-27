@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 interface BoardProps {
   lists: List[];
   tasks: Task[];
-  addTask: (task: Task) => void;
   deleteTask: (taskId: string) => void;
   updateTask: (updatedTask: Task) => void;
   addList: (list: List) => void;
@@ -13,23 +12,7 @@ interface BoardProps {
   updateList: (updatedList: List) => void;
 }
 
-function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteList, updateList}: BoardProps) {
-  
-    const onAddTask = (listId: string) => {
-        // Open a form, gather details for the new task
-        // For example, this could open a modal with a form for the user to input the new task's details
-    
-        const newTask: Task = {
-          id: 'newId', // Generate a new ID for the task
-          name: 'newTask', // The user would input this
-          labels: [], // The user would select these
-          description: 'newTaskDescription', // The user would input this
-          dueDate: '2023-01-01', // The user would input this
-          status: listId, // Initial status
-        };
-    
-        addTask(newTask); // Add the new task
-    };
+function Board({lists, tasks, deleteTask, updateTask, addList, deleteList, updateList}: BoardProps) {
     
     const handleAddList = () => {
         // This could be a prompt, a modal, an input field, etc.
@@ -62,8 +45,8 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
       {lists.map((list) => (
         <TaskList 
           key={list.id} 
-          listTitle={list.name} 
-          onAddTask={() => onAddTask(list.id)}
+          listTitle={list.name}
+          listId={list.id}
           tasks={tasks.filter((task) => list.tasks.includes(task.id))}
           deleteTask={deleteTask}
           updateTask={updateTask}
