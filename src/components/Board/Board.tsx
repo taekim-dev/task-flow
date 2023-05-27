@@ -70,7 +70,7 @@ function Board({lists, tasks, addTask, deleteTask, updateTask, addList, deleteLi
           updateListName={(newName: string) => handleUpdateListName(list.id, newName)} // Pass the function for updating list name
         />
       ))}
-      <button onClick={handleAddList} className="bg-gray-100 w-64 m-4 rounded-xl p-4 h-12 flex justify-center items-center">
+      <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 rounded-xl p-4 h-12 flex justify-center items-center">
         + Add another list
       </button>
     </div>
