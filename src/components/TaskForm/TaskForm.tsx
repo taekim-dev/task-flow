@@ -17,7 +17,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const id = initialData?.id || uuidv4(); // When creating a new task, generate a new id
-    const status = initialData?.status || 'To Do'; // Assign a default status to a new task
+    const listId = initialData?.listId || 'To Do'; // Assign a default status to a new task
   
     onSubmit({
       id,
@@ -25,7 +25,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
       labels,
       description,
       dueDate,
-      status,
+      listId,
     });
   };
 
@@ -51,6 +51,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
         className="text-2xl font-bold mb-2"
         value={name} 
         onChange={(e) => setName(e.target.value)} 
+        placeholder="New Task Title"
       />
       <button type="button" onClick={onCancel}>X</button>
     </div>
@@ -87,7 +88,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
             value={description} 
             onChange={(e) => setDescription(e.target.value)} 
             maxLength={300}
-            className="w-full h-2/3 mt-1 p-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base"
+            className="w-full h-2/3 mt-1 p-2 border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base"
         />
         </div>
         <button className="self-end py-1 px-3 rounded bg-blue-500 text-white" type="submit">Save</button>

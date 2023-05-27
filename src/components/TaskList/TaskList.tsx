@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import TaskCard from '../TaskCard/TaskCard';
 import { Task } from '../../types';
-import TaskService from '../../utils/TaskService';
 import TaskForm from '../TaskForm/TaskForm';
 
 interface TaskListProps {
@@ -10,10 +9,11 @@ interface TaskListProps {
   listId: string;
   deleteTask: (taskId: string) => void;
   updateTask: (updatedTask: Task) => void;
+  addTask: (listId: string, task: Task) => void;
   updateListName?: (newName: string) => void;
 }
 
-function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, updateListName }: TaskListProps) {
+function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName }: TaskListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(listTitle);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
@@ -35,13 +35,12 @@ function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, updateList
   };
 
   const handleAddTask = (newTask: Task) => {
-    newTask.status = listId;
-    TaskService.addTask(newTask);
+    addTask(listId, newTask); // Using the addTask function from Board
     setShowAddTaskForm(false);
   };
 
   return (
-    <div className="bg-gray-100 w-64 m-4 rounded-xl p-4">
+    <div className="bg-gray-100 w-64 m-4 shadow-lg rounded-xl p-4">
       {isEditing ? (
         <input 
           type="text" 

@@ -25,7 +25,13 @@ function Board() {
     const handleAddTask = (listId: string, task: Task) => {
         const updatedTasks = TaskService.addTask(task);
         setAllTasks(updatedTasks);
-        // You might also want to update the corresponding list's tasks here.
+        // Update the corresponding list's tasks here.
+        const listToUpdate = allLists.find(list => list.id === listId);
+        if (listToUpdate) {
+            listToUpdate.tasks.push(task.id);
+            const updatedLists = ListService.updateList(listToUpdate);
+            setAllLists(updatedLists);
+        }
     };
 
     const handleDeleteTask = (taskId: string) => {
@@ -73,9 +79,10 @@ function Board() {
                     deleteTask={handleDeleteTask}
                     updateTask={handleUpdateTask}
                     updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
+                    addTask={handleAddTask} // passing the addTask function to TaskList
                 />
             ))}
-            <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 rounded-xl p-4 h-12 flex justify-center items-center">
+            <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
                 + Add another list
             </button>
         </div>

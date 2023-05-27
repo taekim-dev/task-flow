@@ -16,7 +16,9 @@ function TaskCard({ task, deleteTask, updateTask }: TaskCardProps) {
     setIsEditing(false);
   };
 
-  const formattedDate = new Date(task.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const formattedDate = task.dueDate 
+    ? new Date(task.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) 
+    : "No Due Date";
 
   return (
     <div className="relative bg-white m-2 p-4 rounded-md">
