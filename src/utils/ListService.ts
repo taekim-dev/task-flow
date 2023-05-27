@@ -17,10 +17,14 @@ export default class ListService {
   
     static updateList(updatedList: List): List[] {
       const currentLists = this.getLists();
-      const otherLists = currentLists.filter(list => list.id !== updatedList.id);
-      const updatedLists = [...otherLists, updatedList];
-      localStorage.setItem(this.localStorageKey, JSON.stringify(updatedLists));
-      return updatedLists;
+      const index = currentLists.findIndex(list => list.id === updatedList.id);
+      
+      if (index !== -1) {
+        currentLists[index] = updatedList;
+        localStorage.setItem(this.localStorageKey, JSON.stringify(currentLists));
+      }
+      
+      return currentLists;
     }
   
     static deleteList(listId: string): List[] {
@@ -29,5 +33,4 @@ export default class ListService {
       localStorage.setItem(this.localStorageKey, JSON.stringify(updatedLists));
       return updatedLists;
     }
-  }
-  
+}
