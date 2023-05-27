@@ -39,6 +39,7 @@ function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, dele
 
   const handleAddTask = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && newTaskName.trim() !== '') {
+      event.preventDefault();
       const newTask: Task = {
         id: uuidv4(),
         name: newTaskName.trim(),
@@ -52,6 +53,7 @@ function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, dele
       setNewTaskName('');
     }
   };
+
 
   return (
     <div className="bg-gray-100 w-64 m-4 rounded-xl p-4">
@@ -70,14 +72,16 @@ function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, dele
         <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
       ))}
       {showAddTaskInput && (
-        <input
-          type="text"
-          placeholder="Add a task"
-          value={newTaskName}
-          onChange={(e) => setNewTaskName(e.target.value)}
-          onKeyPress={handleAddTask}
-          className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md"
-        />
+        <div className="relative bg-white m-2 p-4 rounded-md">
+          <input
+            type="text"
+            placeholder="Title for the new task"
+            value={newTaskName}
+            onChange={(e) => setNewTaskName(e.target.value)}
+            onKeyDown={handleAddTask}
+            className="w-full h-16 pl-2 rounded-md"  
+          />
+        </div>
       )}
       <button onClick={() => setShowAddTaskInput(!showAddTaskInput)} className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
         <div className="flex justify-center items-center h-full">
