@@ -1,16 +1,14 @@
 interface NavbarProps {
   username: string;
   avatar: number;
-  totalTasks: number;
 }
 
-function Navbar({ username, avatar, totalTasks }: NavbarProps) {
+function Navbar({ username, avatar }: NavbarProps) {
   return (
     <div className="flex justify-between items-center p-4 bg-white border-b-2 border-gray-200">
-      <div className="text-2xl font-bold text-blue-600">
+      <div className="text-2xl ml-2 font-bold text-blue-600">
         TaskFlow
       </div>
-      <div className="text-xl font bold text-black-300">Total Task: {totalTasks}</div>
       <div className="flex items-center">
         <span className="text-xl font-semibold">Welcome, {username}</span>
         <img 
