@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Board from './components/Board/Board';
@@ -9,6 +9,7 @@ import storageService from './utils/storageService';
 function App() {
   const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
   const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
+  const [taskIdCounter, setTaskIdCounter] = useState<number>(parseInt(storageService.getItem('taskIdCounter') || '1', 10));
   const [tasks, setTasks] = useState<Task[]>([
     { 
       id: 'task1', 
@@ -50,8 +51,18 @@ function App() {
     { id: 'list3', name: 'Done', tasks: ['task3', 'task4'] },
   ]);
 
+  useEffect(() => {
+    storageService.setItem('taskIdCounter', taskIdCounter.toString());
+  }, [taskIdCounter]);
+
+
   const addTask = (task: Task) => {
-    setTasks(prevTasks => [...prevTasks, task]);
+    const newTask = {
+      ...task,
+      id: `task${taskIdCounter}`,
+    };
+    setTasks(prevTasks => [...prevTasks, newTask]);
+    setTaskIdCounter(prevCounter => prevCounter + 1);
   }
 
   const deleteTask = (taskId: string) => {

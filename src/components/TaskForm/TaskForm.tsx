@@ -1,5 +1,6 @@
 import { Task, LabelColor } from '../../types';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface TaskFormProps {
   initialData?: Task;
@@ -15,14 +16,16 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
+    const id = initialData?.id; // When creating a new task, id will be null or undefined
+    const status = initialData?.status || 'To Do'; // Assign a default status to a new task
+  
     onSubmit({
-      id: initialData?.id || 'newId',
+      id,
       name,
       labels,
       description,
       dueDate,
-      status: initialData?.status || 'To Do',
+      status,
     });
   };
 
