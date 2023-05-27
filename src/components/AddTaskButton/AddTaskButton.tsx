@@ -5,7 +5,7 @@ interface AddTaskButtonProps {
   addTask: (task: Task) => void;
 }
 
-function AddTaskButton({ listId, addTask }: AddTaskButtonProps) {
+function AddTaskButton({ addTask }: AddTaskButtonProps) {
   const handleClick = () => {
     // Here you would gather the details for the new task.
     // This could involve opening a form, for example.
