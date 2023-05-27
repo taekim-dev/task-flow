@@ -2,24 +2,21 @@ import { useState } from 'react';
 import TaskCard from '../TaskCard/TaskCard';
 import { Task } from '../../types';
 import TaskService from '../../utils/TaskService';
-import { v4 as uuidv4 } from 'uuid';
+import TaskForm from '../TaskForm/TaskForm';
 
 interface TaskListProps {
   listTitle: string;
   tasks: Task[];
   listId: string;
-  onAddTask?: () => void;
-  isAddList?: boolean;
   deleteTask: (taskId: string) => void;
   updateTask: (updatedTask: Task) => void;
   updateListName?: (newName: string) => void;
 }
 
-function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, deleteTask, updateTask, updateListName }: TaskListProps) {
+function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, updateListName }: TaskListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(listTitle);
-  const [newTaskName, setNewTaskName] = useState('');
-  const [showAddTaskInput, setShowAddTaskInput] = useState(false);
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(event.target.value);
@@ -37,23 +34,11 @@ function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, dele
     setIsEditing(false);
   };
 
-  const handleAddTask = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && newTaskName.trim() !== '') {
-      event.preventDefault();
-      const newTask: Task = {
-        id: uuidv4(),
-        name: newTaskName.trim(),
-        labels: [],
-        description: '',
-        dueDate: '',
-        status: listId,
-      };
-
-      TaskService.addTask(newTask);
-      setNewTaskName('');
-    }
+  const handleAddTask = (newTask: Task) => {
+    newTask.status = listId;
+    TaskService.addTask(newTask);
+    setShowAddTaskForm(false);
   };
-
 
   return (
     <div className="bg-gray-100 w-64 m-4 rounded-xl p-4">
@@ -71,19 +56,13 @@ function TaskList({ listTitle, tasks, listId, onAddTask, isAddList = false, dele
       {tasks.map((task) => (
         <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
       ))}
-      {showAddTaskInput && (
-        <div className="relative bg-white m-2 p-4 rounded-md">
-          <input
-            type="text"
-            placeholder="Title for the new task"
-            value={newTaskName}
-            onChange={(e) => setNewTaskName(e.target.value)}
-            onKeyDown={handleAddTask}
-            className="w-full h-16 pl-2 rounded-md"  
-          />
-        </div>
+      {showAddTaskForm && (
+        <TaskForm 
+          onSubmit={handleAddTask}
+          onCancel={() => setShowAddTaskForm(false)}
+        />
       )}
-      <button onClick={() => setShowAddTaskInput(!showAddTaskInput)} className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
+      <button onClick={() => setShowAddTaskForm(!showAddTaskForm)} className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
         <div className="flex justify-center items-center h-full">
           <span className="font-bold text-xl">+</span>
           <span className="ml-2">Add a task</span>
