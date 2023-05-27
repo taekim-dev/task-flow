@@ -16,7 +16,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const id = initialData?.id; // When creating a new task, id will be null or undefined
+    const id = initialData?.id || uuidv4(); // When creating a new task, generate a new id
     const status = initialData?.status || 'To Do'; // Assign a default status to a new task
   
     onSubmit({

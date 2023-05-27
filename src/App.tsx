@@ -51,19 +51,10 @@ function App() {
     { id: 'list3', name: 'Done', tasks: ['task3', 'task4'] },
   ]);
 
-  useEffect(() => {
-    storageService.setItem('taskIdCounter', taskIdCounter.toString());
-  }, [taskIdCounter]);
-
-
   const addTask = (task: Task) => {
-    const newTask = {
-      ...task,
-      id: `task${taskIdCounter}`,
-    };
-    setTasks(prevTasks => [...prevTasks, newTask]);
-    setTaskIdCounter(prevCounter => prevCounter + 1);
+    setTasks(prevTasks => [...prevTasks, task]);
   }
+
 
   const deleteTask = (taskId: string) => {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
