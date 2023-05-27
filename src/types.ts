@@ -17,7 +17,7 @@ export interface Task {
     Red = '#FF6961',
     Blue = '#92A8D1',
     Green = '#77DD77',
-    Yellow = '#FBC64E',
+    Yellow = '#FFE800',
     Purple = '#B39EB5',
-    Orange = '#FFB347'
+    Orange = '#FFAE06'
 }

@@ -1,6 +1,6 @@
 import { Task } from '../../types';
 import { useState } from 'react';
-import TaskForm from '../TaskForm/TaskForm'; // import TaskForm component
+import TaskForm from '../TaskForm/TaskForm';
 
 interface TaskCardProps {
   task: Task;
@@ -17,24 +17,23 @@ function TaskCard({ task, deleteTask, updateTask }: TaskCardProps) {
   };
 
   return (
-    <div className="bg-white m-2 p-4 rounded-md" onClick={() => setIsEditing(true)}>
-      {isEditing ? (
+    <div className="relative bg-white m-2 p-4 rounded-md">
+      <div onClick={() => setIsEditing(true)}>
+        <div className="flex mb-2">
+          {task.labels.map((label, index) => (
+            <div
+              key={index}
+              className="w-1/4 h-2 rounded mr-1"
+              style={{ backgroundColor: label }}
+            />
+          ))}
+        </div>
+        <h4 className="text-left text-lg font-bold ">{task.name}</h4>
+        <p>{task.dueDate}</p>
+        <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }}>Delete</button>
+      </div>
+      {isEditing && (
         <TaskForm initialData={task} onSubmit={handleSubmit} onCancel={() => setIsEditing(false)} />
-      ) : (
-        <>
-          <div className="flex mb-2">
-            {task.labels.map((label, index) => (
-              <div
-                key={index}
-                className="w-1/4 h-2 rounded mr-1"
-                style={{ backgroundColor: label }}
-              />
-            ))}
-          </div>
-          <h4 className="text-left text-lg font-bold ">{task.name}</h4>
-          <p>{task.dueDate}</p>
-          <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }}>Delete</button>
-        </>
       )}
     </div>
   );
