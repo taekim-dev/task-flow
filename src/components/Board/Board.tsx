@@ -12,12 +12,25 @@ function Board() {
     useEffect(() => {
         const tasksFromLocalStorage = TaskService.getTasks();
         const listsFromLocalStorage = ListService.getLists();
-
-        if (tasksFromLocalStorage) {
+    
+        if (!tasksFromLocalStorage) {
+            setAllTasks([]);
+        } else {
             setAllTasks(tasksFromLocalStorage);
         }
-
-        if (listsFromLocalStorage) {
+    
+        if (!listsFromLocalStorage || listsFromLocalStorage.length === 0) {
+            const defaultLists = [
+                { id: uuidv4(), name: 'To Do', tasks: [] },
+                { id: uuidv4(), name: 'Doing', tasks: [] },
+                { id: uuidv4(), name: 'Done', tasks: [] }
+            ];  
+            defaultLists.forEach(list => {
+                ListService.addList(list);
+            });
+            const updatedListsFromLocalStorage = ListService.getLists();
+            setAllLists(updatedListsFromLocalStorage);
+        } else {
             setAllLists(listsFromLocalStorage);
         }
     }, []);
