@@ -38,7 +38,7 @@ function Board() {
     const handleAddTask = (listId: string, task: Task) => {
         const updatedTasks = TaskService.addTask(task);
         setAllTasks(updatedTasks);
-        // Update the corresponding list's tasks here.
+
         const listToUpdate = allLists.find(list => list.id === listId);
         if (listToUpdate) {
             listToUpdate.tasks.push(task.id);
@@ -50,13 +50,30 @@ function Board() {
     const handleDeleteTask = (taskId: string) => {
         const updatedTasks = TaskService.deleteTask(taskId);
         setAllTasks(updatedTasks);
-        // You might also want to update the corresponding list's tasks here.
+    
+        const listsToUpdate = allLists.filter(list => list.tasks.includes(taskId));
+    
+        listsToUpdate.forEach(list => {
+            const taskIndex = list.tasks.indexOf(taskId);
+            if (taskIndex > -1) {
+                list.tasks.splice(taskIndex, 1);
+            }
+        });
+    
+        const updatedLists = listsToUpdate.map(list => {
+            const listUpdateResult = ListService.updateList(list);
+            // Since ListService.updateList returns List[], we take the first element
+            return listUpdateResult[0];
+        });
+    
+        // Replace the old versions of the lists with their new versions
+        setAllLists(allLists.map(list => updatedLists.find(updatedList => updatedList.id === list.id) || list));
     };
+    
 
     const handleUpdateTask = (updatedTask: Task) => {
         const updatedTasks = TaskService.updateTask(updatedTask);
         setAllTasks(updatedTasks);
-        // You might also want to update the corresponding list's tasks here.
     };
 
     const handleAddList = () => {
@@ -92,7 +109,7 @@ function Board() {
                     deleteTask={handleDeleteTask}
                     updateTask={handleUpdateTask}
                     updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
-                    addTask={handleAddTask} // passing the addTask function to TaskList
+                    addTask={handleAddTask}
                 />
             ))}
             <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">

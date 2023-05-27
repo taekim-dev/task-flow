@@ -16,16 +16,16 @@ export default class ListService {
     }
   
     static updateList(updatedList: List): List[] {
-      const currentLists = this.getLists();
-      const index = currentLists.findIndex(list => list.id === updatedList.id);
-      
-      if (index !== -1) {
-        currentLists[index] = updatedList;
-        localStorage.setItem(this.localStorageKey, JSON.stringify(currentLists));
+        const currentLists = this.getLists();
+        const index = currentLists.findIndex(list => list.id === updatedList.id);
+        
+        if (index !== -1) {
+          currentLists[index] = updatedList;
+          localStorage.setItem(this.localStorageKey, JSON.stringify(currentLists));
+        }
+        
+        return currentLists;
       }
-      
-      return currentLists;
-    }
   
     static deleteList(listId: string): List[] {
       const currentLists = this.getLists();

@@ -23,15 +23,19 @@ function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, u
   };
 
   const handleTitleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      updateListName?.(newTitle);
+    if (event.key === 'Enter' && updateListName) {
+      updateListName(newTitle);
+      setIsEditing(false);
+    } else if (event.key === 'Escape') {
       setIsEditing(false);
     }
   };
 
   const handleBlur = () => {
-    updateListName?.(newTitle);
-    setIsEditing(false);
+    if (updateListName) {
+        updateListName(newTitle);
+        setIsEditing(false);
+    }
   };
 
   const handleAddTask = (newTask: Task) => {
