@@ -2,7 +2,7 @@ import { useState } from 'react';
 import TaskCard from '../TaskCard/TaskCard';
 import { Task } from '../../types';
 import TaskForm from '../TaskForm/TaskForm';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 
 interface TaskListProps {
     listTitle: string;
@@ -59,7 +59,7 @@ interface TaskListProps {
       )}
   
       <Droppable droppableId={listId}>
-        {(provided, snapshot) => (
+        {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {tasks.map((task, index) => (
               <TaskCard 

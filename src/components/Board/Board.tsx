@@ -148,14 +148,6 @@ function Board() {
             + Add another list
         </button>
       </div>
-      <div className="m-4">
-        <button className="bg-gray-50 w-64 m-4 shadow-lg"
-        onClick={() => moveTask( "7922ad39-4d56-4c60-958c-c42a6c5c8953", "df67948d-70c6-412d-bc41-b5d48b5b9950"
-        , 3, 0)} 
-        >
-        Test Move Task
-        </button>
-      </div>
     </DragDropContext>
   );      
 }
