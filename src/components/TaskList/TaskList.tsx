@@ -60,7 +60,7 @@ interface TaskListProps {
   
       <Droppable droppableId={listId}>
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
+          <div ref={provided.innerRef} {...provided.droppableProps} className="min-h-[10px]">
             {tasks.map((task, index) => (
               <TaskCard 
                 key={task.id} 
