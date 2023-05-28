@@ -5,7 +5,7 @@ export interface Task {
   description: string;
   dueDate: string;
   listId?: string;
-  position?: number;
+  position: number;
 }
 
 export interface List {

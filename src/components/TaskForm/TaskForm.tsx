@@ -33,7 +33,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
       description,
       dueDate,
       listId: initialData?.listId,
-      position: initialData?.position,
+      position: initialData?.position || 0,
     });
   };
 

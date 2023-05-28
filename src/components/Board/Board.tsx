@@ -36,12 +36,18 @@ function Board() {
         }
     }, []);
 
+    useEffect(() => {
+        migrateTasks();
+      }, [allTasks]);
+
     const handleAddTask = (listId: string, task: Task) => {
+        const tasksInList = allTasks.filter(t => t.listId === listId);
         task.listId = listId;
-        task.position = allTasks.filter(t => t.listId === listId).length;
+        task.position = tasksInList.length;
         const updatedTasks = TaskService.addTask(task);
         setAllTasks(updatedTasks);
-    };
+      };
+      
 
     const handleDeleteTask = (taskId: string) => {
         const updatedTasks = TaskService.deleteTask(taskId);
@@ -76,31 +82,40 @@ function Board() {
 
 
     const moveTask = (sourceListId: string, destinationListId: string, sourceIndex: number, destinationIndex: number) => {
-        // Clone allTasks to avoid direct state mutation
         const newAllTasks = JSON.parse(JSON.stringify(allTasks));
-      
-        // Find the task in allTasks and update its listId and position
+    
         const task = newAllTasks.find((task: Task) => task.listId === sourceListId && task.position === sourceIndex);
         if (!task) return;
-        task.listId = destinationListId;
-        task.position = destinationIndex;
-      
-        // Re-calculate the position property of all tasks within the source and destination lists
-        newAllTasks
-            .filter((task: Task) => task.listId === sourceListId && (task.position || 0) > sourceIndex)
-            .forEach((task: Task) => { task.position = (task.position || 0) - 1; });
-        newAllTasks
-            .filter((task: Task) => task.listId === destinationListId && (task.position || 0) >= destinationIndex)
-            .forEach((task: Task) => { task.position = (task.position || 0) + 1; });
-
-        // Update allTasks state
-        setAllTasks(newAllTasks);
-      
-        // Persist the updated state to local storage
-        newAllTasks.forEach((task: Task) => TaskService.updateTask(task));
-    };
     
-
+        const sourceTasks = newAllTasks.filter((t: Task) => t.listId === sourceListId);
+        const destinationTasks = newAllTasks.filter((t: Task) => t.listId === destinationListId);
+    
+        if (sourceListId === destinationListId) {
+            sourceTasks
+                .filter((t: Task) => t.position >= Math.min(sourceIndex, destinationIndex) && t.position <= Math.max(sourceIndex, destinationIndex))
+                .forEach((t: Task) => {
+                    t.position = t.position === sourceIndex ? destinationIndex : (sourceIndex > destinationIndex ? t.position + 1 : t.position - 1);
+                });
+        } else {
+            sourceTasks
+                .filter((t: Task) => t.position > sourceIndex)
+                .forEach((t: Task) => {
+                    t.position -= 1;
+                });
+    
+            destinationTasks
+                .filter((t: Task) => t.position >= destinationIndex)
+                .forEach((t: Task) => {
+                    t.position += 1;
+                });
+    
+            task.listId = destinationListId;
+            task.position = destinationIndex;
+        }
+    
+        setAllTasks(newAllTasks);
+        newAllTasks.forEach((task: Task) => TaskService.updateTask(task));
+    };    
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result;
@@ -126,24 +141,39 @@ function Board() {
             destination.index
         );
     };
+
+    const migrateTasks = () => {
+        const newAllTasks: Task[] = allTasks.map(task => {
+          const tasksInList = allTasks.filter(t => t.listId === task.listId);
+          tasksInList.sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id));
+          const newTaskPosition = tasksInList.findIndex(t => t.id === task.id);
+          return {...task, position: newTaskPosition};
+        });
     
-       
+        setAllTasks(newAllTasks);
+        newAllTasks.forEach((task: Task) => TaskService.updateTask(task));
+    };    
+    
+      useEffect(() => {
+        migrateTasks();
+      }, [allTasks, allLists]);    
     
  return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
-        {allLists.map((list) => (
+      {allLists.map((list) => (
         <TaskList
             key={list.id}
             listTitle={list.name}
             listId={list.id}
-            tasks={allTasks.filter((task) => task.listId === list.id).sort((a, b) => (a.position || 0) - (b.position || 0))}
+            tasks={allTasks.filter((task) => task.listId === list.id)
+            .sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id))} // Add fallback sort by id
             deleteTask={handleDeleteTask}
             updateTask={handleUpdateTask}
             updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
             addTask={handleAddTask}
         />
-    ))}
+        ))}
         <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
             + Add another list
         </button>
