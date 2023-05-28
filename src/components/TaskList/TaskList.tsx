@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TaskCard from '../TaskCard/TaskCard';
 import { Task } from '../../types';
 import TaskForm from '../TaskForm/TaskForm';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 interface TaskListProps {
     listTitle: string;
@@ -11,10 +12,9 @@ interface TaskListProps {
     updateTask: (updatedTask: Task) => void;
     addTask: (listId: string, task: Task) => void;
     updateListName?: (newName: string) => void;
-    moveTask: (sourceListId: string, destinationListId: string, sourceIndex: number, destinationIndex: number) => void;
   }
 
-  function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName, moveTask }: TaskListProps) {
+  function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName }: TaskListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(listTitle);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
@@ -57,15 +57,31 @@ interface TaskListProps {
       ) : (
         <h3 className="text-center font-bold" onClick={() => setIsEditing(true)}>{listTitle}</h3>
       )}
-      {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
-      ))}
+  
+      <Droppable droppableId={listId}>
+        {(provided, snapshot) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            {tasks.map((task, index) => (
+              <TaskCard 
+                key={task.id} 
+                task={task} 
+                deleteTask={deleteTask} 
+                updateTask={updateTask} 
+                index={index} 
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+  
       {showAddTaskForm && (
         <TaskForm 
           onSubmit={handleAddTask}
           onCancel={() => setShowAddTaskForm(false)}
         />
       )}
+  
       <button onClick={() => setShowAddTaskForm(!showAddTaskForm)} className="w-full h-12 mt-4 border-2 border-dashed border-black rounded-md">
         <div className="flex justify-center items-center h-full">
           <span className="font-bold text-xl">+</span>
@@ -74,6 +90,7 @@ interface TaskListProps {
       </button>
     </div>
   );
+  
 }
 
 export default TaskList;

@@ -1,5 +1,6 @@
 import { List } from '../../types';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ListFormProps {
   initialData?: List;
@@ -13,9 +14,8 @@ function ListForm({ initialData, onSubmit }: ListFormProps) {
       event.preventDefault();
   
       onSubmit({
-        id: initialData?.id || 'newId', // Generate a new ID for a new list
-        name,
-        tasks: initialData?.tasks || [], // New lists start with no tasks
+        id: initialData?.id || uuidv4(), // Generate a new ID for a new list
+        name
       });
     };
   

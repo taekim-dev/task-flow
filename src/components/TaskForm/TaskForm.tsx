@@ -13,6 +13,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
   const [labels, setLabels] = useState(initialData?.labels || []);
   const [description, setDescription] = useState(initialData?.description || '');
   const [dueDate, setDueDate] = useState(initialData?.dueDate || '');
+  const [listId, setListId] = useState(initialData?.listId || '');
+  const [position, setPosition] = useState(initialData?.position || 0);
 
   const handleLabelChange = (color: LabelColor) => {
     setLabels(labels.includes(color) 
@@ -25,7 +27,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
     event.preventDefault();
 
     const id = initialData?.id || uuidv4(); 
-    const listId = initialData?.listId; // Removed default assignment
   
     onSubmit({
       id,
@@ -34,6 +35,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
       description,
       dueDate,
       listId,
+      position,
     });
   };
 

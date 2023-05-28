@@ -11,7 +11,6 @@ function AddListButton({ addList }: AddListButtonProps) {
     const newList: List = {
       id: 'newId', // You would generate a unique ID.
       name: 'newList', // The user would input this.
-      tasks: [], // New lists would likely start empty.
     };
 
     addList(newList);
