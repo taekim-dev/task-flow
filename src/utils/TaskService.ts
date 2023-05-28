@@ -32,6 +32,10 @@ class TaskService {
         storageService.setItem(this.storageKey, JSON.stringify(tasks));
         return tasks;
     }
+    
+    saveTasks(tasks: Task[]) {
+        storageService.setItem(this.storageKey, JSON.stringify(tasks));
+    }
 }
 
 export default new TaskService();

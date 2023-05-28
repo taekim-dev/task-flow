@@ -4,16 +4,17 @@ import { Task } from '../../types';
 import TaskForm from '../TaskForm/TaskForm';
 
 interface TaskListProps {
-  listTitle: string;
-  tasks: Task[];
-  listId: string;
-  deleteTask: (taskId: string) => void;
-  updateTask: (updatedTask: Task) => void;
-  addTask: (listId: string, task: Task) => void;
-  updateListName?: (newName: string) => void;
-}
+    listTitle: string;
+    tasks: Task[];
+    listId: string;
+    deleteTask: (taskId: string) => void;
+    updateTask: (updatedTask: Task) => void;
+    addTask: (listId: string, task: Task) => void;
+    updateListName?: (newName: string) => void;
+    moveTask: (sourceListId: string, destinationListId: string, sourceIndex: number, destinationIndex: number) => void;
+  }
 
-function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName }: TaskListProps) {
+  function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName, moveTask }: TaskListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(listTitle);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);

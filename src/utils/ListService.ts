@@ -1,36 +1,39 @@
 import { List } from '../types';
+import storageService from './storageService';
 
-export default class ListService {
-    static localStorageKey = 'lists';
-  
-    static getLists(): List[] {
-      const lists = localStorage.getItem(this.localStorageKey);
-      return lists ? JSON.parse(lists) : [];
+class ListService {
+  private storageKey = 'lists';
+
+  getLists(): List[] {
+    const lists = storageService.getItem(this.storageKey);
+    return lists ? JSON.parse(lists) : [];
+  }
+
+  addList(list: List): List[] {
+    const currentLists = this.getLists();
+    const updatedLists = [...currentLists, list];
+    storageService.setItem(this.storageKey, JSON.stringify(updatedLists));
+    return updatedLists;
+  }
+
+  updateList(updatedList: List): List[] {
+    const currentLists = this.getLists();
+    const index = currentLists.findIndex(list => list.id === updatedList.id);
+    
+    if (index !== -1) {
+      currentLists[index] = updatedList;
+      storageService.setItem(this.storageKey, JSON.stringify(currentLists));
     }
-  
-    static addList(list: List): List[] {
-      const currentLists = this.getLists();
-      const updatedLists = [...currentLists, list];
-      localStorage.setItem(this.localStorageKey, JSON.stringify(updatedLists));
-      return updatedLists;
-    }
-  
-    static updateList(updatedList: List): List[] {
-        const currentLists = this.getLists();
-        const index = currentLists.findIndex(list => list.id === updatedList.id);
-        
-        if (index !== -1) {
-          currentLists[index] = updatedList;
-          localStorage.setItem(this.localStorageKey, JSON.stringify(currentLists));
-        }
-        
-        return currentLists;
-      }
-  
-    static deleteList(listId: string): List[] {
-      const currentLists = this.getLists();
-      const updatedLists = currentLists.filter(list => list.id !== listId);
-      localStorage.setItem(this.localStorageKey, JSON.stringify(updatedLists));
-      return updatedLists;
-    }
+    
+    return currentLists;
+  }
+
+  deleteList(listId: string): List[] {
+    const currentLists = this.getLists();
+    const updatedLists = currentLists.filter(list => list.id !== listId);
+    storageService.setItem(this.storageKey, JSON.stringify(updatedLists));
+    return updatedLists;
+  }
 }
+
+export default new ListService();

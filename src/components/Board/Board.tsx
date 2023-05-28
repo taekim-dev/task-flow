@@ -98,8 +98,52 @@ function Board() {
         }
     };
 
+    const moveTask = (sourceListId: string, destinationListId: string, sourceIndex: number, destinationIndex: number) => {
+        // Clone allLists and allTasks to avoid direct state mutation
+        const newAllLists = JSON.parse(JSON.stringify(allLists));
+        const newAllTasks = JSON.parse(JSON.stringify(allTasks));
+      
+        // Find the source and destination list
+        const sourceList = newAllLists.find((list: List) => list.id === sourceListId);
+        const destinationList = newAllLists.find((list: List) => list.id === destinationListId);
+        if (!sourceList || !destinationList) return;
+      
+        // Get the task ID and remove it from the source list
+        const taskId = sourceList.tasks[sourceIndex];
+        sourceList.tasks.splice(sourceIndex, 1);
+      
+        // Add it to the destination list at the right index
+        destinationList.tasks.splice(destinationIndex, 0, taskId);
+      
+        // Find the task in allTasks and update its position and listId
+        const task = newAllTasks.find((task: Task) => task.id === taskId);
+        if (!task) return;
+        task.position = destinationIndex;
+        task.listId = destinationListId;
+      
+        // Re-calculate the position property of all tasks within the source and destination lists
+        sourceList.tasks.forEach((taskId: string, index: number) => {
+            const task = newAllTasks.find((task: Task) => task.id === taskId);
+            if (task) task.position = index;
+        });
+        destinationList.tasks.forEach((taskId: string, index: number) => {
+            const task = newAllTasks.find((task: Task) => task.id === taskId);
+            if (task) task.position = index;
+        });
+      
+        // Update allTasks and allLists state
+        setAllTasks(newAllTasks);
+        setAllLists(newAllLists);
+      
+        // Persist the updated state to local storage
+        newAllTasks.forEach((task: Task) => TaskService.updateTask(task));
+        newAllLists.forEach((list: List) => ListService.updateList(list));
+    };
+    
+      
     return (
-        <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
+        <div>
+          <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
             {allLists.map((list) => (
                 <TaskList
                     key={list.id}
@@ -110,13 +154,16 @@ function Board() {
                     updateTask={handleUpdateTask}
                     updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
                     addTask={handleAddTask}
+                    moveTask={moveTask}
                 />
             ))}
             <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
                 + Add another list
             </button>
+          </div>
+
         </div>
-    );
+      );      
 }
 
 export default Board;
