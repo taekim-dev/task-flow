@@ -8,7 +8,7 @@ interface TaskFormProps {
   onCancel: () => void;
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) => {
+function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps): JSX.Element {
     const [name, setName] = useState(initialData?.name || '');
     const [labels, setLabels] = useState(initialData?.labels || []);
     const [description, setDescription] = useState(initialData?.description || '');
