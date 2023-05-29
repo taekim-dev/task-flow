@@ -58,23 +58,27 @@ interface TaskListProps {
         <h3 className="text-center font-bold" onClick={() => setIsEditing(true)}>{listTitle}</h3>
       )}
   
-      <Droppable droppableId={listId}>
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps} className="min-h-[10px]">
+        <Droppable droppableId={listId}>
+        {(provided, snapshot) => (
+            <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className={`min-h-[10px] ${snapshot.isDraggingOver ? 'bg-gray-200' : 'bg-gray-100'}`}
+            >
             {tasks.map((task, index) => (
-              <TaskCard 
+                <TaskCard 
                 key={task.id} 
                 task={task} 
                 deleteTask={deleteTask} 
                 updateTask={updateTask} 
                 index={index} 
-              />
+                />
             ))}
             {provided.placeholder}
-          </div>
+            </div>
         )}
-      </Droppable>
-  
+        </Droppable>
+
       {showAddTaskForm && (
         <TaskForm 
           onSubmit={handleAddTask}
