@@ -13,13 +13,13 @@ function Board() {
     useEffect(() => {
         const tasksFromLocalStorage = TaskService.getTasks();
         const listsFromLocalStorage = ListService.getLists();
-    
+
         if (!tasksFromLocalStorage) {
             setAllTasks([]);
         } else {
             setAllTasks(tasksFromLocalStorage);
         }
-    
+
         if (!listsFromLocalStorage || listsFromLocalStorage.length === 0) {
             const defaultLists = [
                 { id: uuidv4(), name: 'To Do' },
@@ -36,9 +36,24 @@ function Board() {
         }
     }, []);
 
+    const migrateTasks = () => {
+        const newAllTasks: Task[] = allTasks.map(task => {
+            const tasksInList = allTasks.filter(t => t.listId === task.listId);
+            tasksInList.sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id));
+            const newTaskPosition = tasksInList.findIndex(t => t.id === task.id);
+            return {...task, position: newTaskPosition};
+        });
+    
+        // Check if the newAllTasks array is different from the current allTasks array
+        if (JSON.stringify(newAllTasks) !== JSON.stringify(allTasks)) {
+            setAllTasks(newAllTasks);
+            TaskService.saveTasks(newAllTasks);
+        }
+    };    
+
     useEffect(() => {
         migrateTasks();
-      }, [allTasks]);
+    }, [allTasks, allLists]); 
 
     const handleAddTask = (listId: string, task: Task) => {
         const tasksInList = allTasks.filter(t => t.listId === listId);
@@ -141,45 +156,29 @@ function Board() {
             destination.index
         );
     };
-
-    const migrateTasks = () => {
-        const newAllTasks: Task[] = allTasks.map(task => {
-          const tasksInList = allTasks.filter(t => t.listId === task.listId);
-          tasksInList.sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id));
-          const newTaskPosition = tasksInList.findIndex(t => t.id === task.id);
-          return {...task, position: newTaskPosition};
-        });
     
-        setAllTasks(newAllTasks);
-        newAllTasks.forEach((task: Task) => TaskService.updateTask(task));
-    };    
-    
-      useEffect(() => {
-        migrateTasks();
-      }, [allTasks, allLists]);    
-    
- return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
-      {allLists.map((list) => (
-        <TaskList
-            key={list.id}
-            listTitle={list.name}
-            listId={list.id}
-            tasks={allTasks.filter((task) => task.listId === list.id)
-            .sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id))} // Add fallback sort by id
-            deleteTask={handleDeleteTask}
-            updateTask={handleUpdateTask}
-            updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
-            addTask={handleAddTask}
-        />
-        ))}
-        <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
-            + Add another list
-        </button>
-      </div>
-    </DragDropContext>
-  );      
+    return (
+        <DragDropContext onDragEnd={onDragEnd}>
+            <div className="bg-blue-200 flex flex-row min-h-screen overflow-auto items-start">
+            {allLists.map((list) => (
+                <TaskList
+                    key={list.id}
+                    listTitle={list.name}
+                    listId={list.id}
+                    tasks={allTasks.filter((task) => task.listId === list.id)
+                    .sort((a, b) => (a.position || 0) - (b.position || 0) || a.id.localeCompare(b.id))} // Add fallback sort by id
+                    deleteTask={handleDeleteTask}
+                    updateTask={handleUpdateTask}
+                    updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
+                    addTask={handleAddTask}
+                />
+            ))}
+            <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
+                + Add another list
+            </button>
+            </div>
+        </DragDropContext>
+    );    
 }
 
 export default Board;
