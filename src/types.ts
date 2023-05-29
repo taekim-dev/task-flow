@@ -4,9 +4,14 @@ export interface Task {
   labels: LabelColor[];
   description: string;
   dueDate: string;
-  comments: string[];
+  comments: Comment[];
   listId?: string;
   position: number;
+}
+
+export interface Comment {
+  text: string;
+  date: Date; 
 }
 
 export interface List {

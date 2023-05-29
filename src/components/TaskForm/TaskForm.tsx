@@ -24,13 +24,15 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
     };
   
     const handleAddComment = () => {
-      setComments([...comments, newComment]);
-      setNewComment('');
-    };
+        setComments([...comments, { text: newComment, date: new Date() }]);
+        setNewComment('');
+      };
+      
 
-    const handleDeleteComment = (commentToDelete: string) => {
+      const handleDeleteComment = (commentToDelete: { text: string, date: Date }) => {
         setComments(comments.filter(comment => comment !== commentToDelete));
       };
+      
   
     const handleSubmit = (event: React.FormEvent) => {
       event.preventDefault();
@@ -108,23 +110,29 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
     <label className="font-bold">Comments:</label>
     {comments.map((comment, i) => (
   <div key={i} className="border-b border-gray-300 py-2 flex justify-between items-center">
-    <span>{comment}</span>
-    <button 
-      type="button"
-      onClick={() => handleDeleteComment(comment)}
-      className="bg-white-500 text-black rounded px-2"
-    >
-      X
-    </button>
+    <span>{comment.text}</span>
+    <div>
+      <span className="text-sm text-gray-500 pr-2">
+        {Math.floor((new Date().getTime() - new Date(comment.date).getTime()) / (1000 * 60 * 60 * 24))} days ago
+      </span>
+      <button 
+        type="button"
+        onClick={() => handleDeleteComment(comment)}
+        className="bg-white-500 text-black rounded px-2"
+      >
+        X
+      </button>
+    </div>
   </div>
 ))}
+
 
     <div className="flex mt-2">
         <input 
         type="text"
         value={newComment} 
         onChange={(e) => setNewComment(e.target.value)} 
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
         if (e.key === 'Enter') {
             e.preventDefault(); // prevent form submission
             handleAddComment();

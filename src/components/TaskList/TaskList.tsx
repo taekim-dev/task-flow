@@ -51,7 +51,7 @@ interface TaskListProps {
           type="text" 
           value={newTitle} 
           onChange={handleTitleChange} 
-          onKeyPress={handleTitleKeyPress}
+          onKeyDown={handleTitleKeyPress}
           onBlur={handleBlur}
         />
       ) : (
