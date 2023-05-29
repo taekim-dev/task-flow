@@ -12,9 +12,10 @@ interface TaskListProps {
     updateTask: (updatedTask: Task) => void;
     addTask: (listId: string, task: Task) => void;
     updateListName?: (newName: string) => void;
+    deleteList?: (listId: string) => void;
   }
 
-  function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName }: TaskListProps) {
+  function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName, deleteList }: TaskListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(listTitle);
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
@@ -45,7 +46,13 @@ interface TaskListProps {
   };
 
   return (
-    <div className="bg-gray-100 w-64 m-4 shadow-lg rounded-xl p-4">
+    <div className="bg-gray-100 w-64 m-4 shadow-lg rounded-xl p-4 relative">
+              <button 
+        onClick={() => deleteList && deleteList(listId)} 
+        className="absolute right-2 top-2 bg-blue-300 text-white w-5 h-5 flex justify-center items-center rounded hover:bg-blue-400 active:bg-blue-500"
+        >
+        X
+      </button>
       {isEditing ? (
         <input 
           type="text" 

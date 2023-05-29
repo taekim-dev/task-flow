@@ -156,6 +156,20 @@ function Board() {
             destination.index
         );
     };
+
+    const handleDeleteList = (listId: string) => {
+        // Delete the list from allLists and update the ListService
+        const updatedLists = ListService.deleteList(listId);
+        setAllLists(updatedLists);
+    
+        // Delete all tasks associated with this list from allTasks and update the TaskService
+        const tasksToDelete = allTasks.filter(task => task.listId === listId);
+        tasksToDelete.forEach(task => {
+            const updatedTasks = TaskService.deleteTask(task.id);
+            setAllTasks(updatedTasks);
+        });
+    };
+    
     
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -171,6 +185,7 @@ function Board() {
                     updateTask={handleUpdateTask}
                     updateListName={(newName: string) => handleUpdateListName(list.id, newName)}
                     addTask={handleAddTask}
+                    deleteList={handleDeleteList}
                 />
             ))}
             <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
