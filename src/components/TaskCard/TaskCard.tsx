@@ -18,7 +18,6 @@ function TaskCard({ task, deleteTask, updateTask, index }: TaskCardProps) {
     setIsEditing(false);
   };
 
-// This function adds the correct suffix to the date.
 function addOrdinalSuffix(date: Date): string {
     const day = date.getDate();
     let suffix = '';
