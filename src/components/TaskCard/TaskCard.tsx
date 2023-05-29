@@ -44,6 +44,11 @@ function TaskCard({ task, deleteTask, updateTask, index }: TaskCardProps) {
             </div>
             <h4 className="text-left text-lg font-bold mb-4">{task.name}</h4>
             <p>{formattedDate}</p>
+            {task.comments.length > 0 && (
+              <div className="flex items-center">
+                <p>💬 {task.comments.length}</p>
+              </div>
+            )}
           </div>
           {isEditing && (
             <TaskForm initialData={task} onSubmit={handleSubmit} onCancel={() => setIsEditing(false)} />

@@ -27,6 +27,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
       setComments([...comments, newComment]);
       setNewComment('');
     };
+
+    const handleDeleteComment = (commentToDelete: string) => {
+        setComments(comments.filter(comment => comment !== commentToDelete));
+      };
   
     const handleSubmit = (event: React.FormEvent) => {
       event.preventDefault();
@@ -103,7 +107,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
         <div className="mb-2 text-left">
     <label className="font-bold">Comments:</label>
     {comments.map((comment, i) => (
-      <div key={i} className="border-t border-gray-300 py-2">{comment}</div>
+    <div key={i} className="border-t border-gray-300 py-2 flex justify-between">
+        <span>{comment}</span>
+        <button 
+        type="button"
+        onClick={() => handleDeleteComment(comment)}
+        className="bg-white-500 text-black rounded px-2"
+        >
+        X
+        </button>
+    </div>
     ))}
     <div className="flex mt-2">
       <input 
