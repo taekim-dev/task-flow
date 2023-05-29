@@ -18,9 +18,38 @@ function TaskCard({ task, deleteTask, updateTask, index }: TaskCardProps) {
     setIsEditing(false);
   };
 
-  const formattedDate = task.dueDate 
-    ? new Date(task.dueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) 
+// This function adds the correct suffix to the date.
+function addOrdinalSuffix(date: Date): string {
+    const day = date.getDate();
+    let suffix = '';
+
+    if (day > 3 && day < 21) suffix = 'th';
+    else {
+        switch (day % 10) {
+            case 1:  
+                suffix = "st";
+                break;
+            case 2:  
+                suffix = "nd";
+                break;
+            case 3:  
+                suffix = "rd";
+                break;
+            default: 
+                suffix = "th";
+                break;
+        }
+    }
+
+    return suffix;
+}
+
+const dueDateObject = new Date(task.dueDate);
+
+const formattedDate = task.dueDate
+    ? `${dueDateObject.toLocaleString('en-US', { month: 'long' })} ${dueDateObject.getDate()}${addOrdinalSuffix(dueDateObject)}, ${dueDateObject.getFullYear()}`
     : "No Due Date";
+
 
   return (
     <Draggable draggableId={task.id} index={index}>
