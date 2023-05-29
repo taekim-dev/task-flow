@@ -41,7 +41,7 @@ interface TaskListProps {
   };
 
   const handleAddTask = (newTask: Task) => {
-    addTask(listId, newTask); // Using the addTask function from Board
+    addTask(listId, newTask); 
     setShowAddTaskForm(false);
   };
 
@@ -54,7 +54,7 @@ interface TaskListProps {
         X
       </button>
       {isEditing ? (
-        <input 
+        <input className="text-center font-bold"
           type="text" 
           value={newTitle} 
           onChange={handleTitleChange} 

@@ -9,6 +9,8 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 function Board() {
     const [allTasks, setAllTasks] = useState<Task[]>(TaskService.getTasks());
     const [allLists, setAllLists] = useState<List[]>(ListService.getLists());
+    const [creatingNewList, setCreatingNewList] = useState<boolean>(false);
+    const [newListName, setNewListName] = useState<string>('');
 
     useEffect(() => {
         const tasksFromLocalStorage = TaskService.getTasks();
@@ -72,18 +74,6 @@ function Board() {
     const handleUpdateTask = (updatedTask: Task) => {
         const updatedTasks = TaskService.updateTask(updatedTask);
         setAllTasks(updatedTasks);
-    };
-
-    const handleAddList = () => {
-        const newListName = prompt('Enter new list name');
-        if (newListName) {
-            const newList: List = {
-                id: uuidv4(),
-                name: newListName
-            };
-            const updatedLists = ListService.addList(newList);
-            setAllLists(updatedLists);
-        }
     };
 
     const handleUpdateListName = (listId: string, newName: string) => {
@@ -169,7 +159,39 @@ function Board() {
             setAllTasks(updatedTasks);
         });
     };
-    
+
+    const handleAddList = () => {
+        if (newListName) {
+            const newList: List = {
+                id: uuidv4(),
+                name: newListName
+            };
+            const updatedLists = ListService.addList(newList);
+            setAllLists(updatedLists);
+            // reset the list creation state
+            setNewListName('');
+            setCreatingNewList(false);
+        }
+    };
+
+    const startNewListCreation = () => {
+        setCreatingNewList(true);
+    };
+
+    const cancelNewListCreation = () => {
+        setNewListName('');
+        setCreatingNewList(false);
+    };
+
+    const handleNewListNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewListName(event.target.value);
+    };
+
+    const handleNewListNameKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleAddList();
+        }
+    };
     
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -188,9 +210,22 @@ function Board() {
                     deleteList={handleDeleteList}
                 />
             ))}
-            <button onClick={handleAddList} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
-                + Add another list
-            </button>
+            {creatingNewList ? (
+                <div className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
+                    <input 
+                        value={newListName}
+                        onChange={handleNewListNameChange}
+                        onKeyDown={handleNewListNameKeyPress}
+                        onBlur={cancelNewListCreation}
+                        autoFocus
+                        className="flex-grow text-center font-bold"
+                    />
+                </div>
+            ) : (
+                <button onClick={startNewListCreation} className="bg-gray-50 w-64 m-4 shadow-lg rounded-xl p-4 h-12 flex justify-center items-center">
+                    + Add another list
+                </button>
+            )}
             </div>
         </DragDropContext>
     );    
