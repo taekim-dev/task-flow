@@ -107,35 +107,42 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
         <div className="mb-2 text-left">
     <label className="font-bold">Comments:</label>
     {comments.map((comment, i) => (
-    <div key={i} className="border-t border-gray-300 py-2 flex justify-between">
-        <span>{comment}</span>
-        <button 
-        type="button"
-        onClick={() => handleDeleteComment(comment)}
-        className="bg-white-500 text-black rounded px-2"
-        >
-        X
-        </button>
-    </div>
-    ))}
+  <div key={i} className="border-b border-gray-300 py-2 flex justify-between items-center">
+    <span>{comment}</span>
+    <button 
+      type="button"
+      onClick={() => handleDeleteComment(comment)}
+      className="bg-white-500 text-black rounded px-2"
+    >
+      X
+    </button>
+  </div>
+))}
+
     <div className="flex mt-2">
-      <input 
+        <input 
         type="text"
         value={newComment} 
         onChange={(e) => setNewComment(e.target.value)} 
+        onKeyPress={(e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // prevent form submission
+            handleAddComment();
+        }
+        }}
         placeholder="Add a comment..."
-        className="mr-2 flex-grow border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base p-2"
-      />
+        className="mr-2 mt-2 flex-grow border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base p-2"
+    />
       <button 
         type="button"
         onClick={handleAddComment}
-        className="py-1 px-3 rounded bg-blue-500 text-white"
+        className="py-1 px-3 mt-2 rounded bg-blue-500 text-white"
       >
         Add
       </button>
     </div>
   </div>
-    <button className="self-center mt-4 py-1 px-3 rounded bg-blue-500 text-white" type="submit">Save</button>
+    <button className="self-center mt-4 py-2 px-4 rounded bg-blue-500 text-white" type="submit">Save</button>
       </form>
     </div>
   );
