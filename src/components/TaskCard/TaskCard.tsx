@@ -49,7 +49,6 @@ const formattedDate = task.dueDate
     ? `${dueDateObject.toLocaleString('en-US', { month: 'long' })} ${dueDateObject.getDate()}${addOrdinalSuffix(dueDateObject)}, ${dueDateObject.getFullYear()}`
     : "No Due Date";
 
-
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -59,7 +58,7 @@ const formattedDate = task.dueDate
           ref={provided.innerRef}
           className="relative bg-white m-2 p-4 rounded-md"
         >
-          <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }} className="absolute right-2 top-2 font-bold ">X</button>
+          <button onClick={(e) => { e.stopPropagation(); deleteTask(task.id); }} className="absolute right-2 top-2 font-bold text-gray-500 hover:text-gray-900 active:text-red-500 focus:outline-none">X</button>
           <div onClick={() => setIsEditing(true)}>
             <div className="flex mb-2">
               {task.labels.map((label, index) => (

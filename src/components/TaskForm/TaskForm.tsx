@@ -67,7 +67,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps): JSX.Eleme
             onChange={(e) => setName(e.target.value)} 
             placeholder="Add a title..."
           />
-          <button type="button" onClick={onCancel}>X</button>
+          <button type="button" className="font-bold text-gray-500 hover:text-gray-900 active:text-indigo-600 focus:outline-none" onClick={onCancel}>X</button>
         </div>
         <div className="flex justify-center space-x-4 mb-4 text-left">
           <div className="w-3/5">
@@ -118,7 +118,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps): JSX.Eleme
       <button 
         type="button"
         onClick={() => handleDeleteComment(comment)}
-        className="bg-white-500 text-black rounded px-2"
+        className="bg-white-500 text-gray-500 rounded px-2 font-bold hover:text-gray-900 active:text-indigo-600 focus:outline-none"
       >
         X
       </button>
