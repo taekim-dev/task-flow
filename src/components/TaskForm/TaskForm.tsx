@@ -9,33 +9,41 @@ interface TaskFormProps {
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) => {
-  const [name, setName] = useState(initialData?.name || '');
-  const [labels, setLabels] = useState(initialData?.labels || []);
-  const [description, setDescription] = useState(initialData?.description || '');
-  const [dueDate, setDueDate] = useState(initialData?.dueDate || '');
-
-  const handleLabelChange = (color: LabelColor) => {
-    setLabels(labels.includes(color) 
-      ? labels.filter(label => label !== color)
-      : [...labels, color]
-    );
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const id = initialData?.id || uuidv4(); 
+    const [name, setName] = useState(initialData?.name || '');
+    const [labels, setLabels] = useState(initialData?.labels || []);
+    const [description, setDescription] = useState(initialData?.description || '');
+    const [dueDate, setDueDate] = useState(initialData?.dueDate || '');
+    const [comments, setComments] = useState(initialData?.comments || []);
+    const [newComment, setNewComment] = useState('');
   
-    onSubmit({
-      id,
-      name,
-      labels,
-      description,
-      dueDate,
-      listId: initialData?.listId,
-      position: initialData?.position || 0,
-    });
-  };
+    const handleLabelChange = (color: LabelColor) => {
+      setLabels(labels.includes(color) 
+        ? labels.filter(label => label !== color)
+        : [...labels, color]
+      );
+    };
+  
+    const handleAddComment = () => {
+      setComments([...comments, newComment]);
+      setNewComment('');
+    };
+  
+    const handleSubmit = (event: React.FormEvent) => {
+      event.preventDefault();
+  
+      const id = initialData?.id || uuidv4(); 
+    
+      onSubmit({
+        id,
+        name,
+        labels,
+        description,
+        dueDate,
+        comments,
+        listId: initialData?.listId,
+        position: initialData?.position || 0,
+      });
+    };
 
   return (
     <div 
@@ -43,7 +51,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
       onClick={(e) => e.stopPropagation()}
     >
       <form
-        className="bg-white w-1/2 h-2/5 border-4 border-black shadow-xl p-4 flex flex-col justify-between"
+        className="bg-white w-1/2 min-h-2/5 max-h-screen overflow-auto border-4 border-black shadow-xl p-4 flex flex-col justify-between"
         onSubmit={handleSubmit}
       >
         <div className="flex justify-between">
@@ -51,7 +59,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
             className="text-2xl font-bold mb-2"
             value={name} 
             onChange={(e) => setName(e.target.value)} 
-            placeholder="New Task Title"
+            placeholder="Add a title..."
           />
           <button type="button" onClick={onCancel}>X</button>
         </div>
@@ -88,10 +96,33 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, onCancel }) 
             value={description} 
             onChange={(e) => setDescription(e.target.value)} 
             maxLength={300}
+            placeholder="Add a description..."
             className="w-full h-2/3 mt-1 p-2 border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base"
           />
         </div>
-        <button className="self-end py-1 px-3 rounded bg-blue-500 text-white" type="submit">Save</button>
+        <div className="mb-2 text-left">
+    <label className="font-bold">Comments:</label>
+    {comments.map((comment, i) => (
+      <div key={i} className="border-t border-gray-300 py-2">{comment}</div>
+    ))}
+    <div className="flex mt-2">
+      <input 
+        type="text"
+        value={newComment} 
+        onChange={(e) => setNewComment(e.target.value)} 
+        placeholder="Add a comment..."
+        className="mr-2 flex-grow border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base p-2"
+      />
+      <button 
+        type="button"
+        onClick={handleAddComment}
+        className="py-1 px-3 rounded bg-blue-500 text-white"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+    <button className="self-center mt-4 py-1 px-3 rounded bg-blue-500 text-white" type="submit">Save</button>
       </form>
     </div>
   );

@@ -15,6 +15,7 @@ function AddTaskButton({ addTask }: AddTaskButtonProps) {
       name: 'newTask', // The user would input this.
       labels: [], // Initial label.
       description: 'newTaskDescription', // The user would input this.
+      comments: [],
       dueDate: '2023-01-01', // The user would input this.
       listId: 'To Do', // Initial status.
       position: 0,

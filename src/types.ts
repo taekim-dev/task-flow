@@ -4,6 +4,7 @@ export interface Task {
   labels: LabelColor[];
   description: string;
   dueDate: string;
+  comments: string[];
   listId?: string;
   position: number;
 }
