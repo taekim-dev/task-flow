@@ -11,8 +11,8 @@ interface TaskListProps {
     deleteTask: (taskId: string) => void;
     updateTask: (updatedTask: Task) => void;
     addTask: (listId: string, task: Task) => void;
-    updateListName?: (newName: string) => void;
-    deleteList?: (listId: string) => void;
+    updateListName: (newName: string) => void;
+    deleteList: (listId: string) => void;
   }
 
   function TaskList({ listTitle, tasks, listId, deleteTask, updateTask, addTask, updateListName, deleteList }: TaskListProps) {
