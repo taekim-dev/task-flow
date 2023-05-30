@@ -22,6 +22,12 @@ Design: [UI Design Document](https://docs.google.com/document/d/1Jcm2m_0JU7I3wTx
 - Tailwind CSS
 - Local Storage for state management
 
+## Libraries
+- React Beautiful DnD
+- UUID
+- Jest
+- Vite
+
 ## How to Use
 
 1. Visit the [live demo](https://task-flow2.netlify.app).
