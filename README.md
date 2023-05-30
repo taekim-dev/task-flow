@@ -1,14 +1,12 @@
 # TaskFlow
 
+Live Demo: [TaskFlow](https://task-flow2.netlify.app)
+
 ![TaskFlow screenshot](./src/assets/screenshot.jpg)
 
-[UI Design Document](https://docs.google.com/document/d/1Jcm2m_0JU7I3wTxKmUdtUlqaFRzLCXj7Lu2MYoC4ZXg/edit?usp=sharing)
+Design: [UI Design Document](https://docs.google.com/document/d/1Jcm2m_0JU7I3wTxKmUdtUlqaFRzLCXj7Lu2MYoC4ZXg/edit?usp=sharing)
 
 TaskFlow is a Trello-like project management app built with React.js, TypeScript, and Tailwind CSS. It features a drag-and-drop interface for intuitive task and list management. 
-
-## Live Demo
-
-You can view a live demo of the app [here](https://task-flow2.netlify.app).
 
 ## Key Features
 
