@@ -1,24 +1,28 @@
 interface NavbarProps {
-  username: string;
-  avatar: number;
-}
-
-function Navbar({ username, avatar }: NavbarProps) {
-  return (
-    <div className="flex justify-between items-center p-4 bg-white border-b-2 border-gray-200">
-      <div className="text-2xl ml-2 font-bold text-blue-500">
-        TaskFlow
+    username: string;
+    avatar: number;
+  }
+  
+  function Navbar({ username, avatar }: NavbarProps) {
+    return (
+      <div className="flex justify-between items-center p-4 bg-white border-b-2 border-gray-200">
+        <div className="text-2xl font-bold text-blue-500 ml-3">
+          TaskFlow
+        </div>
+        <div className="flex items-center">
+          <span className="text-xl font-semibold">Welcome, {username}</span>
+          <img 
+            className="h-12 w-12 rounded-full ml-3" 
+            src={`/img/Avatar-${avatar}.jpg`} 
+            alt="User avatar"
+          />
+          <a href="https://github.com/taekim-dev/task-flow" className="w-9 h-8">
+            <img src="/img/Question-mark.jpg" alt="Question Mark" className="rounded-full" />
+          </a>
+        </div>
       </div>
-      <div className="flex items-center">
-        <span className="text-xl font-semibold">Welcome, {username}</span>
-        <img 
-          className="h-12 w-12 rounded-full mr-3" 
-          src={`/img/Avatar-${avatar}.jpg`} 
-          alt="User avatar"
-        />
-      </div>
-    </div>
-  );
-}
-
-export default Navbar;
+    );
+  }
+  
+  export default Navbar;
+  
