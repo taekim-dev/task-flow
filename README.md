@@ -1,6 +1,6 @@
 # TaskFlow
 
-![TaskFlow screenshot](public/image/screenshot.jpg)
+![TaskFlow screenshot](./public/img/screenshot.jpg)
 
 TaskFlow is a Trello-like project management app built with React.js, TypeScript, and Tailwind CSS. It features a drag-and-drop interface for intuitive task and list management. 
 
@@ -25,11 +25,11 @@ You can view a live demo of the app [here](https://task-flow2.netlify.app).
 ## How to Use
 
 1. Visit the [live demo](https://task-flow2.netlify.app).
-2. Create a new list by clicking on the "Add a new list" button and filling out the form.
-3. Create a new task within a list by clicking on the "Add a new task" button and filling out the form.
-4. Drag-and-drop tasks across different lists as needed.
-5. Update tasks by clicking on the task, making changes in the popup form, and clicking on the save button.
-6. Delete tasks or lists by clicking on the delete button.
+2. Select your avatar and enter your username to enter the app.
+3. Create a new list by clicking on the "Add a new list" button and filling out the form.
+4. Create a new task within a list by clicking on the "Add a new task" button and filling out the form.
+5. Drag-and-drop tasks across different lists as needed.
+6. Update tasks by clicking on the task, making changes in the popup form, and clicking on the save button.
+7. Delete tasks or lists by clicking on the delete button.
 
 All your tasks and lists are automatically saved in your browser's local storage for persistence across sessions.
-
