@@ -62,7 +62,7 @@ interface TaskListProps {
           onBlur={handleBlur}
         />
       ) : (
-        <h3 className="text-center font-bold" onClick={() => setIsEditing(true)}>{listTitle}</h3>
+        <h3 className="text-center text-lg font-bold" onClick={() => setIsEditing(true)}>{listTitle}</h3>
       )}
   
         <Droppable droppableId={listId}>
