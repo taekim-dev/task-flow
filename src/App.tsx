@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Board from './components/Board/Board';
 import LandingPage from './components/LandingPage/LandingPage';
@@ -8,17 +9,31 @@ function App() {
   const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
   const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
 
+  // Update local storage when user state changes
+  useEffect(() => {
+    storageService.setItem('username', username);
+    storageService.setItem('avatar', avatar.toString());
+  }, [username, avatar]);
+
+  const handleLogout = () => {
+    setUsername('');
+    setAvatar(1);
+    storageService.clear();
+  }
+
   return (
-    <div className="App">
-      {username === '' ? (
-        <LandingPage setUsername={setUsername} setAvatar={setAvatar} />
-      ) : (
-        <>
-          <Navbar username={username} avatar={avatar} />
-          <Board />
-        </>
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        {username === '' ? (
+          <LandingPage setUsername={setUsername} setAvatar={setAvatar} />
+        ) : (
+          <>
+            <Navbar username={username} avatar={avatar} onLogout={handleLogout} />
+            <Board />
+          </>
+        )}
+      </div>
+    </Router>
   );
 }
 

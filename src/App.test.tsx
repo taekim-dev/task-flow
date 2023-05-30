@@ -13,34 +13,42 @@ describe('App component', () => {
 });
 
 describe('Navbar component', () => {
-    const username = "John";
-    const avatar = 1;
-  
-    test('Navbar renders correctly', () => {
-      const { getByText } = render(<Navbar username={username} avatar={avatar} />);
-      expect(getByText('TaskFlow')).toBeInTheDocument();
-      expect(getByText(`Welcome, ${username}`)).toBeInTheDocument();
-    });
+  const username = "John";
+  const avatar = 1;
+  const mockLogout = jest.fn();
 
-    test('Displays username correctly', () => {
-      const { getByText } = render(<Navbar username={username} avatar={avatar} />);
-      expect(getByText(`Welcome, ${username}`)).toBeInTheDocument();
-    });
-  
-    test('Avatar renders correctly', () => {
-      const { getByAltText } = render(<Navbar username={username} avatar={avatar} />);
-      const avatarImage = getByAltText("User avatar");
-      expect(avatarImage).toBeInTheDocument();
-      expect(avatarImage).toHaveAttribute('src', `/img/Avatar-${avatar}.jpg`);
-    });
-  
-    test('Question mark image renders correctly', () => {
-      const { getByAltText } = render(<Navbar username={username} avatar={avatar} />);
-      const questionMarkImage = getByAltText("Question Mark");
-      expect(questionMarkImage).toBeInTheDocument();
-      expect(questionMarkImage).toHaveAttribute('src', '/img/Question-mark.jpg');
-    });
+  test('Navbar renders correctly', () => {
+    const { getByText } = render(<Navbar username={username} avatar={avatar} onLogout={mockLogout} />);
+    expect(getByText('TaskFlow')).toBeInTheDocument();
+    expect(getByText(`Welcome, ${username}`)).toBeInTheDocument();
   });
+
+  test('Displays username correctly', () => {
+    const { getByText } = render(<Navbar username={username} avatar={avatar} onLogout={mockLogout} />);
+    expect(getByText(`Welcome, ${username}`)).toBeInTheDocument();
+  });
+
+  test('Avatar renders correctly', () => {
+    const { getByAltText } = render(<Navbar username={username} avatar={avatar} onLogout={mockLogout} />);
+    const avatarImage = getByAltText("User avatar");
+    expect(avatarImage).toBeInTheDocument();
+    expect(avatarImage).toHaveAttribute('src', `/img/Avatar-${avatar}.jpg`);
+  });
+
+  test('Information mark image renders correctly', () => {
+    const { getByAltText } = render(<Navbar username={username} avatar={avatar} onLogout={mockLogout} />);
+    const infoMarkImage = getByAltText("Information Mark");
+    expect(infoMarkImage).toBeInTheDocument();
+    expect(infoMarkImage).toHaveAttribute('src', '/img/Info.jpg');
+  });
+
+  test('Logout button triggers logout function', () => {
+    const { getByAltText } = render(<Navbar username={username} avatar={avatar} onLogout={mockLogout} />);
+    const logoutButton = getByAltText("Logout Icon");
+    fireEvent.click(logoutButton);
+    expect(mockLogout).toHaveBeenCalled();
+  });
+});
 
 
 describe('ListForm component', () => {
