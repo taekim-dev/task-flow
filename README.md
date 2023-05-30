@@ -1,6 +1,8 @@
 # TaskFlow
 
-![TaskFlow screenshot](./public/img/screenshot.jpg)
+![TaskFlow screenshot](./src/assets/screenshot.jpg)
+
+[UI Design Document](https://docs.google.com/document/d/1Jcm2m_0JU7I3wTxKmUdtUlqaFRzLCXj7Lu2MYoC4ZXg/edit?usp=sharing)
 
 TaskFlow is a Trello-like project management app built with React.js, TypeScript, and Tailwind CSS. It features a drag-and-drop interface for intuitive task and list management. 
 
