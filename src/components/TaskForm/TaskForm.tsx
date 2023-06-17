@@ -101,7 +101,7 @@ function TaskForm({ initialData, onSubmit, onCancel }: TaskFormProps): JSX.Eleme
           <textarea 
             value={description} 
             onChange={(e) => setDescription(e.target.value)} 
-            maxLength={300}
+            maxLength={1000}
             placeholder="Add a description..."
             className="w-full h-2/3 mt-1 p-2 border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-base"
           />
