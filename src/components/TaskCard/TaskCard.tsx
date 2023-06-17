@@ -43,10 +43,13 @@ function addOrdinalSuffix(date: Date): string {
     return suffix;
 }
 
-const dueDateObject = new Date(task.dueDate);
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0); // set time to 00:00:00 to only compare the date
 
-const formattedDate = task.dueDate
-    ? `${dueDateObject.toLocaleString('en-US', { month: 'long' })} ${dueDateObject.getDate()}${addOrdinalSuffix(dueDateObject)}, ${dueDateObject.getFullYear()}`
+  const dueDateObject = new Date(task.dueDate);
+  
+  const formattedDate = task.dueDate
+    ? `${dueDateObject.toLocaleString('en-US', { month: 'long' })} ${dueDateObject.getDate()}${addOrdinalSuffix(dueDateObject)}, ${dueDateObject.getFullYear()}${dueDateObject < currentDate ? "❗" : ""}`
     : "No Due Date";
 
   return (
