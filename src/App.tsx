@@ -9,7 +9,6 @@ function App() {
   const [username, setUsername] = useState<string>(storageService.getItem('username') || ''); 
   const [avatar, setAvatar] = useState<number>(Number(storageService.getItem('avatar')) || 1);
 
-  // Update local storage when user state changes
   useEffect(() => {
     storageService.setItem('username', username);
     storageService.setItem('avatar', avatar.toString());
